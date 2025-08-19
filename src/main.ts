@@ -19,14 +19,7 @@ async function bootstrap() {
   Logger.log(`CORS whitelist: [${allowedOrigins.join(', ')}]`, 'Bootstrap');
 
   app.enableCors({
-    origin: (origin, callback) => {
-      Logger.log(`Request from origin: ${origin}`, 'CORS');
-      if (!origin || allowedOrigins.includes(origin)) {
-        callback(null, true);
-      } else {
-        callback(new Error('Not allowed by CORS'));
-      }
-    },
+    origin: allowedOrigins,
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
