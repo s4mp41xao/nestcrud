@@ -1,22 +1,29 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { Logger, ValidationPipe } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  const configService = app.get(ConfigService);
 
-  const clientUrl = configService.get<string>('CORS_ORIGIN');
+  // Read the client URL directly from environment variables for Vercel compatibility.
+  const clientUrl = process.env.CORS_ORIGIN;
+
   if (!clientUrl) {
     Logger.warn(
-      'CORS_ORIGIN not found in .env file. Browser requests may be blocked.',
+      'CORS_ORIGIN not found in environment variables. Browser requests may be blocked.',
       'Bootstrap',
     );
   }
+
+  // Allow multiple origins by splitting the comma-separated string.
   const allowedOrigins = clientUrl ? clientUrl.split(',') : [];
 
-  Logger.log(`CORS whitelist: [${allowedOrigins.join(', ')}]`, 'Bootstrap');
+  if (allowedOrigins.length > 0) {
+    Logger.log(
+      `CORS whitelist enabled for: [${allowedOrigins.join(', ')}]`,
+      'Bootstrap',
+    );
+  }
 
   app.enableCors({
     origin: allowedOrigins,
@@ -26,9 +33,9 @@ async function bootstrap() {
 
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true, // Automatically remove non-whitelisted properties
-      forbidNonWhitelisted: true, // Throw an error if non-whitelisted properties are provided
-      transform: true, // Automatically transform payloads to DTO instances
+      whitelist: true, // Automatically remove non-whitelisted properties.
+      forbidNonWhitelisted: true, // Throw an error if non-whitelisted properties are provided.
+      transform: true, // Automatically transform payloads to DTO instances.
     }),
   );
 
