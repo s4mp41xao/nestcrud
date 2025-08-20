@@ -1,98 +1,125 @@
-<p align="center">
+# NestJS CRUD API for Product Management
+
+This project is a complete backend API for a product management application, built with the NestJS framework. It provides all the necessary endpoints for CRUD (Create, Read, Update, Delete) operations on products and is configured for deployment on Vercel.
+
+---
+
+## ✨ Features
+
+- **Full CRUD Functionality**: Endpoints for creating, reading, updating, and deleting products.
+- **Database Integration**: Uses MongoDB with Mongoose and Typegoose for data modeling and persistence.
+- **Validation**: Implements `class-validator` and `class-transformer` for robust request data validation.
+- **CORS Enabled**: Configured to allow requests from a specific frontend application URL.
+- **Ready for Deployment**: Includes a `vercel.json` file for easy deployment to Vercel.
+
+---
+
+## 🛠️ Technologies Used
+
+- **[NestJS](https://nestjs.com/)**: A progressive Node.js framework for building efficient and scalable server-side applications.
+- **[MongoDB](https://www.mongodb.com/)**: A NoSQL database for storing product data.
+- **[Mongoose](https://mongoosejs.com/)**: An elegant MongoDB object modeling tool for Node.js.
+- **[Typegoose](https://typegoose.github.io/typegoose/)**: A library for creating Mongoose models with TypeScript classes.
+- **[TypeScript](https://www.typescriptlang.org/)**: A typed superset of JavaScript that compiles to plain JavaScript.
+- **[Vercel](https://vercel.com/)**: A cloud platform for static sites and Serverless Functions.
+
+---
+
+## 📂 Project Structure
+
+The project follows the standard NestJS project structure:
+
+```
+src/
+├── app.controller.spec.ts  # Unit test for the main controller
+├── app.controller.ts       # Main application controller
+├── app.module.ts           # Main application module
+├── app.service.ts          # Main application service
+├── main.ts                 # Application entry file
+└── products/               # Products module
+    ├── dto/                # Data Transfer Objects for products
+    │   ├── create-product.dto.ts
+    │   └── update-product.dto.ts
+    ├── models/             # Data models (Mongoose Schema)
+    │   └── product.model.ts
+    ├── products.controller.ts # Controller for product routes
+    ├── products.module.ts     # Module that encapsulates product logic
+    └── products.service.ts    # Service with business logic for products
+```
+
+---
+
+## 🗄️ Database
+
+This project uses **MongoDB** as its database. The connection is managed through the `MongooseModule` in `app.module.ts`. Product data is structured according to the schema defined in `src/products/schemas/product.schema.ts` using Typegoose.
+
+---
+
+## ↔️ API Endpoints
+
+The following endpoints are available for the `products` resource. The base URL is `/products`.
+
+| Method | Endpoint           | Description                  |
+| :----- | :----------------- | :--------------------------- |
+| `GET`    | `/products`                | Get a list of all products.  |
+| `GET`    | `/:id`             | Get a single product by ID.  |
+| `POST`   | `/products`                | Create a new product.        |
+| `PATCH`  | `/:id`             | Update an existing product.  |
+| `DELETE` | `/:id`             | Delete a product by ID.      |
+
+---
+
+## ⚙️ Environment Variables
+
+To run this project, you need to create a `.env` file in the root directory with the following variables:
+
+- `DATABASE_URL`: The connection string for your MongoDB database.
+- `JWT_SECRET`: A secret key for JWT token generation (if you add authentication).
+- `CORS_ORIGIN`: The URL of the frontend application that will be allowed to make requests (e.g., `http://localhost:3000`).
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+
+- [Node.js](https://nodejs.org/en/) (v18 or higher)
+- [npm](https://www.npmjs.com/)
+- A [MongoDB](https://www.mongodb.com/try/download/community) database instance (local or cloud).
+
+### Installation and Running Locally
+
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/your-username/nestcrud.git
+    cd nestcrud
+    ```
+
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
+
+3.  **Set up environment variables:**
+    Create a `.env` file in the root and add the variables mentioned above.
+
+4.  **Run the application:**
+    ```bash
+    # Development mode with watch
+    npm run start:dev
+    ```
+    The application will be running on `http://localhost:3000`.
+
+---
+
+## ☁️ Deployment
+
+This project is configured for deployment on **Vercel**. The `vercel.json` file ensures that the NestJS application is correctly built and served as a serverless function.
+
+To deploy, simply connect your GitHub repository to Vercel and let it build and deploy automatically. Remember to set the environment variables in the Vercel project settings.
+
+<br>
+
+<p align="left">
   <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
 </p>
-
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
-
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Project setup
-
-```bash
-$ npm install
-```
-
-## Compile and run the project
-
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
-```
-
-## Run tests
-
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
-```
-
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
-
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
